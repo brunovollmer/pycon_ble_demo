@@ -19,6 +19,7 @@ from ble.constants import (
 from ble.advertisement import Advertisement
 from ble.application import Application
 from ble.exceptions import BluetoothNotFoundException
+from ble.service import Service
 
 
 def find_adapter(bus):
@@ -91,16 +92,9 @@ class BLEProcess(Process):
         # Create the application and add the service to it
         app = Application(self._system_bus)
 
-        # app.add_service(
-        #     UpdateService(
-        #         bus=self._system_bus,
-        #         index=0,
-        #         input_queues=self._input_queues,
-        #         output_queue=self._output_queue,
-        #         stop_notification_event=self._stop_notification_event,
-        #         config=self._config,
-        #     )
-        # )
+        example_service = Service(bus=self._system_bus, index=0, uuid="0000180d-aaaa-1000-8000-0081239b35fb", primary=True)
+
+        app.add_service(example_service)
 
         # Initialise the advertisement
         self._advertisement.init_advertisement()

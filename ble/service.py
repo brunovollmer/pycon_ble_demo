@@ -1,8 +1,12 @@
+import queue
+
 import dbus
 
+from ble.characteristic import Characteristic
 from ble.constants import DBUS_PROP_IFACE, GATT_SERVICE_IFACE
 
 from ble.exceptions import InvalidArgsException
+from ble.util import check_flags
 
 
 class Service(dbus.service.Object):
@@ -20,6 +24,8 @@ class Service(dbus.service.Object):
         self.characteristics = []
         dbus.service.Object.__init__(self, bus, self.path)
 
+        self.characteristic_queues = {}
+
     def get_properties(self):
         return {
             GATT_SERVICE_IFACE: {
@@ -34,8 +40,20 @@ class Service(dbus.service.Object):
     def get_path(self):
         return dbus.ObjectPath(self.path)
 
-    def add_characteristic(self, characteristic):
+    def add_characteristic(self, uuid, flags, description, default_value):
+        check_flags(flags)
+
+        self.characteristic_queues[uuid] = queue.Queue()
+
+        characteristic = Characteristic(self.bus, len(self.characteristics), uuid, flags, self, description,
+                                        default_value, self.characteristic_queues[uuid])
+
         self.characteristics.append(characteristic)
+
+    def write_to_characteristic(self, value, uuid):
+
+        # TODO check size of value and raise exception if too big
+        self.characteristic_queues[uuid].put(value)
 
     def get_characteristic_paths(self):
         result = []
