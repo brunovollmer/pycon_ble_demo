@@ -1,5 +1,5 @@
 import queue
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import dbus
 from gi.repository import GObject

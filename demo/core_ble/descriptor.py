@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 import dbus
 
 from demo.core_ble.constants import DBUS_PROP_IFACE, GATT_DESC_IFACE
