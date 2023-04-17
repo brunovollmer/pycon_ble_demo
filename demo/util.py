@@ -63,7 +63,7 @@ def str_to_byte_arr(text: str) -> dbus.Array:
     return ascii_values
 
 
-def find_adapter(bus: dbus.SystemBus) -> Optional[dbus.Object]:
+def find_adapter(bus: dbus.SystemBus) -> Optional[dbus.service.Object]:
     """
     Find the BlueZ adapter object.
 
