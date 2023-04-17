@@ -68,7 +68,7 @@ class Descriptor(dbus.service.Object):
     def ReadValue(self, options) -> Any:
         """
         Returns the value of the descriptor.
-        
+
         Args:
             options (Dict[str, Any]): A dictionary of options.
 

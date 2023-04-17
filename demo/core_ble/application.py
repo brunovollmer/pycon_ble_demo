@@ -8,7 +8,7 @@ from demo.core_ble.service import Service
 
 class Application(dbus.service.Object):
     """
-    org.bluez.GattApplication1 interface implementation. 
+    org.bluez.GattApplication1 interface implementation.
     """
 
     def __init__(self, system_bus: dbus.SystemBus) -> None:

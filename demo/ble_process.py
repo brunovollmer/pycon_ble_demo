@@ -10,10 +10,7 @@ from gi.repository import GLib
 
 from demo.core_ble.advertisement import Advertisement
 from demo.core_ble.application import Application
-from demo.core_ble.constants import (
-    BLUEZ_SERVICE_NAME,
-    GATT_MANAGER_IFACE,
-)
+from demo.core_ble.constants import BLUEZ_SERVICE_NAME, GATT_MANAGER_IFACE
 from demo.core_ble.service import Service
 from demo.exceptions import BluetoothNotFoundException
 from demo.util import find_adapter

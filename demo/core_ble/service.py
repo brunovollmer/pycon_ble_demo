@@ -28,7 +28,7 @@ class Service(dbus.service.Object):
     def get_properties(self) -> Dict[str, Dict[str, Any]]:
         """
         Returns the properties of the service.
-        
+
         Returns:
             Dict[str, Dict[str, Any]]: The properties of the service.
         """
@@ -89,7 +89,7 @@ class Service(dbus.service.Object):
     def get_characteristic_paths(self) -> List[dbus.ObjectPath]:
         """
         Returns the paths of the characteristics.
-        
+
         Returns:
             List[dbus.ObjectPath]: The paths of the characteristics.
         """

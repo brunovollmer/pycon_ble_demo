@@ -2,7 +2,11 @@ from typing import List, Optional
 
 import dbus
 
-from demo.core_ble.constants import BLUEZ_SERVICE_NAME, DBUS_OM_IFACE, GATT_MANAGER_IFACE
+from demo.core_ble.constants import (
+    BLUEZ_SERVICE_NAME,
+    DBUS_OM_IFACE,
+    GATT_MANAGER_IFACE,
+)
 
 
 def check_flags(flags: List[str]):

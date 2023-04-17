@@ -1,5 +1,5 @@
 import queue
-from typing import Dict, Any
+from typing import Any, Dict
 
 import dbus
 from gi.repository import GObject
@@ -12,7 +12,7 @@ from demo.util import str_to_byte_arr
 
 class Characteristic(dbus.service.Object):
     """
-    org.bluez.GattCharacteristic1 interface implementation. 
+    org.bluez.GattCharacteristic1 interface implementation.
     """
 
     def __init__(self, bus, index, uuid, flags, service, description, default_value, input_queue):
@@ -22,7 +22,7 @@ class Characteristic(dbus.service.Object):
         self.service = service
         self.flags = flags
         self.descriptors = [Descriptor(bus, 0, self, description)]
-        
+
         dbus.service.Object.__init__(self, bus, self.path)
 
         self.value = str_to_byte_arr(default_value)
@@ -35,9 +35,9 @@ class Characteristic(dbus.service.Object):
             self.notifying = False
 
     def get_properties(self) -> Dict[str, Dict[str, Any]]:
-        """"
+        """ "
         Returns a dictionary of all the properties of the characteristic.
-        
+
         Returns:
             Dict[str, Dict[str, Any]]: A dictionary of all the properties of the characteristic.
         """
@@ -66,7 +66,7 @@ class Characteristic(dbus.service.Object):
         self.PropertiesChanged(GATT_CHRC_IFACE, {"Value": self.value}, [])
 
     def get_path(self) -> dbus.ObjectPath:
-        """"
+        """ "
         Returns the path of the characteristic.
 
         Returns:

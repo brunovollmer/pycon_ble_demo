@@ -24,7 +24,7 @@ def register_ad_error_cb(error: dbus.DBusException):
 
     Args:
         error (dbus.DBusException): error that occurred
-    
+
     Raises:
         AdvertisementException: raised when there is an error registering the advertisement
     """
@@ -120,7 +120,7 @@ class Advertisement(dbus.service.Object):
             interface: name of interface
 
         Raises:
-            InvalidArgsException: wrong interface name            
+            InvalidArgsException: wrong interface name
 
         Returns:
             Dict[str, Union[dbus.Array, dbus.Boolean, dbus.Dictionary]]
