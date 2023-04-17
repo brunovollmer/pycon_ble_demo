@@ -16,7 +16,7 @@ class Service(dbus.service.Object):
 
     PATH_BASE = "/org/bluez/example/service"
 
-    def __init__(self, bus, index, uuid, primary):
+    def __init__(self, bus, index, uuid, primary, output_queue):
         self.path = self.PATH_BASE + str(index)
         self.bus = bus
         self.uuid = uuid
@@ -25,6 +25,7 @@ class Service(dbus.service.Object):
         dbus.service.Object.__init__(self, bus, self.path)
 
         self.characteristic_queues = {}
+        self.output_queue = output_queue
 
     def get_properties(self) -> Dict[str, Dict[str, Any]]:
         """
@@ -73,6 +74,7 @@ class Service(dbus.service.Object):
             description,
             default_value,
             self.characteristic_queues[uuid],
+            self.output_queue,
         )
 
         self.characteristics.append(characteristic)

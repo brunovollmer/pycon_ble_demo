@@ -7,7 +7,7 @@ from gi.repository import GObject
 from demo.core_ble.constants import DBUS_PROP_IFACE, GATT_CHRC_IFACE
 from demo.core_ble.descriptor import Descriptor
 from demo.exceptions import InvalidArgsException
-from demo.util import str_to_byte_arr
+from demo.util import str_to_byte_arr, byte_arr_to_str
 
 
 class Characteristic(dbus.service.Object):
@@ -15,7 +15,7 @@ class Characteristic(dbus.service.Object):
     org.bluez.GattCharacteristic1 interface implementation.
     """
 
-    def __init__(self, bus, index, uuid, flags, service, description, default_value, input_queue):
+    def __init__(self, bus, index, uuid, flags, service, description, default_value, input_queue, output_queue):
         self.path = service.path + "/char" + str(index)
         self.bus = bus
         self.uuid = uuid
@@ -27,6 +27,7 @@ class Characteristic(dbus.service.Object):
 
         self.value = str_to_byte_arr(default_value)
         self.input_queue = input_queue
+        self.output_queue = output_queue
         self.notification_timeout_id = None
 
         if "notify" in self.flags:
@@ -130,6 +131,7 @@ class Characteristic(dbus.service.Object):
         Writes a value to the characteristic.
         """
         self.value = value
+        self.output_queue.put({'uuid': self.uuid, 'value': byte_arr_to_str(value)})
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StartNotify(self):

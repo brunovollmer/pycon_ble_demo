@@ -1,4 +1,5 @@
 import enum
+import queue
 from multiprocessing import Process
 from signal import SIGINT, SIGTERM, signal
 
@@ -25,11 +26,12 @@ def register_app_error_cb(error):
 
 
 class BLEProcess(Process):
-    def __init__(self) -> None:
+    def __init__(self, output_queue: queue.Queue) -> None:
         super().__init__()
         self._system_bus = None
         self._mainloop = None
         self._advertisement = None
+        self._output_queue = output_queue
 
     def _shutdown_handler(self, sig: enum, frame: enum) -> None:
         """
@@ -79,7 +81,10 @@ class BLEProcess(Process):
             index=0,
             uuid="0000180d-aaaa-1000-8000-0081239b35fb",
             primary=True,
+            output_queue=self._output_queue
         )
+
+        example_service.add_characteristic('f76ce015-952b-c6a8-e17c-c2c19aac7b1b', ["read", "write"], "Test Characteristic", "Hello PyConDE")
 
         app.add_service(example_service)
 
