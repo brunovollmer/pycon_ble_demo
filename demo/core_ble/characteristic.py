@@ -1,9 +1,10 @@
 import queue
+from typing import Dict, Any
 
 import dbus
 from gi.repository import GObject
 
-from demo.constants import DBUS_PROP_IFACE, GATT_CHRC_IFACE
+from demo.core_ble.constants import DBUS_PROP_IFACE, GATT_CHRC_IFACE
 from demo.core_ble.descriptor import Descriptor
 from demo.exceptions import InvalidArgsException
 from demo.util import str_to_byte_arr
@@ -11,32 +12,36 @@ from demo.util import str_to_byte_arr
 
 class Characteristic(dbus.service.Object):
     """
-    org.bluez.GattCharacteristic1 interface implementation. This class is used to be overwritten by our implementations
-    of the different characteristics.
+    org.bluez.GattCharacteristic1 interface implementation. 
     """
 
-    def __init__(
-        self, bus, index, uuid, flags, service, description, default_value, input_queue
-    ):
-        self.notifying = None
-        self.notification_timeout_id = None
+    def __init__(self, bus, index, uuid, flags, service, description, default_value, input_queue):
         self.path = service.path + "/char" + str(index)
         self.bus = bus
         self.uuid = uuid
         self.service = service
         self.flags = flags
         self.descriptors = [Descriptor(bus, 0, self, description)]
+        
         dbus.service.Object.__init__(self, bus, self.path)
 
         self.value = str_to_byte_arr(default_value)
         self.input_queue = input_queue
+        self.notification_timeout_id = None
 
         if "notify" in self.flags:
             self.notifying = True
         else:
             self.notifying = False
 
-    def get_properties(self):
+    def get_properties(self) -> Dict[str, Dict[str, Any]]:
+        """"
+        Returns a dictionary of all the properties of the characteristic.
+        
+        Returns:
+            Dict[str, Dict[str, Any]]: A dictionary of all the properties of the characteristic.
+        """
+
         return {
             GATT_CHRC_IFACE: {
                 "Service": self.service.get_path(),
@@ -47,6 +52,11 @@ class Characteristic(dbus.service.Object):
         }
 
     def input_queue_callback(self):
+        """
+        Callback function for the input queue. This function is called every 10ms to check if there is a new value in the input queue.
+        If there is a new value, it is written to the characteristic and a PropertiesChanged signal is emitted.
+        """
+
         try:
             curr_value = self.input_queue.get(False)
         except queue.Empty:
@@ -55,52 +65,88 @@ class Characteristic(dbus.service.Object):
         self.value = str_to_byte_arr(str(curr_value))
         self.PropertiesChanged(GATT_CHRC_IFACE, {"Value": self.value}, [])
 
-    def get_path(self):
+    def get_path(self) -> dbus.ObjectPath:
+        """"
+        Returns the path of the characteristic.
+
+        Returns:
+            dbus.ObjectPath: The path of the characteristic.
+        """
         return dbus.ObjectPath(self.path)
 
-    def get_descriptor_paths(self):
+    def get_descriptor_paths(self) -> List[dbus.ObjectPath]:
+        """
+        Returns a list of all the paths of the descriptors of the characteristic.
+
+        Returns:
+            List[dbus.ObjectPath]: A list of all the paths of the descriptors of the characteristic.
+        """
         result = []
         for desc in self.descriptors:
             result.append(desc.get_path())
         return result
 
-    def get_descriptors(self):
+    def get_descriptors(self) -> List[Descriptor]:
+        """
+        Returns a list of all the descriptors of the characteristic.
+
+        Returns:
+            List[Descriptor]: A list of all the descriptors of the characteristic.
+        """
         return self.descriptors
 
-    def _handle_notification(self):
-        pass
-        # TODO
-
     @dbus.service.method(DBUS_PROP_IFACE, in_signature="s", out_signature="a{sv}")
-    def GetAll(self, interface):
+    def GetAll(self, interface) -> Dict[str, Any]:
+        """
+        Returns a dictionary of all the properties of the characteristic.
+
+        Args:
+            interface (str): The interface of the characteristic.
+
+        Returns:
+            Dict[str, Any]: A dictionary of all the properties of the characteristic.
+        """
         if interface != GATT_CHRC_IFACE:
             raise InvalidArgsException()
 
         return self.get_properties()[GATT_CHRC_IFACE]
 
     @dbus.service.method(GATT_CHRC_IFACE, in_signature="a{sv}", out_signature="ay")
-    def ReadValue(self, options):
+    def ReadValue(self, options: Dict[str, Any]) -> Any:
+        """
+        Returns the value of the characteristic.
+
+        Args:
+            options (Dict[str, Any]): A dictionary of options.
+
+        Returns:
+            Any: The value of the characteristic.
+        """
         return self.value
 
     @dbus.service.method(GATT_CHRC_IFACE, in_signature="aya{sv}")
-    def WriteValue(self, value, options):
+    def WriteValue(self, value: Any, options: Dict[str, Any]):
+        """
+        Writes a value to the characteristic.
+        """
         self.value = value
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StartNotify(self):
+        """
+        Set the characteristic to notifying.
+        """
         if self.notifying:
             return
 
         self.notifying = True
-        self.notification_timeout_id = GObject.timeout_add(
-            10, self.input_queue_callback
-        )
+        self.notification_timeout_id = GObject.timeout_add(10, self.input_queue_callback)
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StopNotify(self):
+        """
+        Set the characteristic to not notifying.
+        """
+
         self.notifying = False
         GObject.source_remove(self.notification_timeout_id)
-
-    @dbus.service.signal(DBUS_PROP_IFACE, signature="sa{sv}as")
-    def PropertiesChanged(self, interface, changed, invalidated):
-        pass

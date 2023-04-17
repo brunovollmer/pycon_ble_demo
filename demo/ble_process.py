@@ -10,20 +10,13 @@ from gi.repository import GLib
 
 from demo.core_ble.advertisement import Advertisement
 from demo.core_ble.application import Application
-from demo.constants import BLUEZ_SERVICE_NAME, DBUS_OM_IFACE, GATT_MANAGER_IFACE
-from demo.exceptions import BluetoothNotFoundException
+from demo.core_ble.constants import (
+    BLUEZ_SERVICE_NAME,
+    GATT_MANAGER_IFACE,
+)
 from demo.core_ble.service import Service
-
-
-def find_adapter(bus):
-    remote_om = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, "/"), DBUS_OM_IFACE)
-    objects = remote_om.GetManagedObjects()
-
-    for o, props in objects.items():
-        if GATT_MANAGER_IFACE in props.keys():
-            return o
-
-    return None
+from demo.exceptions import BluetoothNotFoundException
+from demo.util import find_adapter
 
 
 def register_app_cb():
@@ -43,7 +36,7 @@ class BLEProcess(Process):
 
     def _shutdown_handler(self, sig: enum, frame: enum) -> None:
         """
-        A function that stops the main loop and stop the advertisements.
+        Handler that stops the main loop and stop the advertisements.
         """
         self._mainloop.quit()
         self._advertisement.release()
@@ -61,15 +54,14 @@ class BLEProcess(Process):
         signal(SIGTERM, self._shutdown_handler)
         signal(SIGINT, self._shutdown_handler)
 
+        # create the shared system bus object and find the main bluez adapter
         self._system_bus = dbus.SystemBus()
         adapter = find_adapter(self._system_bus)
 
         if not adapter:
             raise BluetoothNotFoundException()
 
-        adapter_obj = self._system_bus.get_object(
-            bus_name=BLUEZ_SERVICE_NAME, object_path=adapter
-        )
+        adapter_obj = self._system_bus.get_object(bus_name=BLUEZ_SERVICE_NAME, object_path=adapter)
 
         service_manager = dbus.Interface(adapter_obj, GATT_MANAGER_IFACE)
 
@@ -105,5 +97,5 @@ class BLEProcess(Process):
             error_handler=register_app_error_cb,
         )
 
-        # blocking call to run the main loop
+        # Blocking call to run the main event loop
         self._mainloop.run()

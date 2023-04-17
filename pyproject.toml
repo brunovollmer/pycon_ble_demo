@@ -1,0 +1,15 @@
+[tool.isort]
+profile = "black"
+skip= [".git", "venv"]
+
+[tool.black]
+line-length = 127
+target-version = ['py39']
+exclude = '''
+    \.git
+    |venv
+'''
+
+[tool.pylint."FORMAT"]
+no-docstring-rgx="__.*__"
+max-line-length=127

@@ -2,13 +2,13 @@ from typing import Dict
 
 import dbus
 
-from demo.constants import DBUS_OM_IFACE
+from demo.core_ble.constants import DBUS_OM_IFACE
 from demo.core_ble.service import Service
 
 
 class Application(dbus.service.Object):
     """
-    org.bluez.GattApplication1 interface implementation. This class is used to register services.
+    org.bluez.GattApplication1 interface implementation. 
     """
 
     def __init__(self, system_bus: dbus.SystemBus) -> None:
@@ -20,6 +20,7 @@ class Application(dbus.service.Object):
         """
         self.path = "/"
         self.services = []
+
         dbus.service.Object.__init__(self, system_bus, self.path)
 
     def get_path(self) -> str:
@@ -46,7 +47,7 @@ class Application(dbus.service.Object):
         Overwrite GetManagedObjects to add all characteristics of the added services.
 
         Returns:
-            Dict: all managed objects of this application
+            Dict[str, dbus.ObjectPath]: all managed objects of this application
         """
         response = {}
 
