@@ -85,7 +85,12 @@ class BLEProcess(Process):
         # Create the application and add the service to it
         app = Application(self._system_bus)
 
-        example_service = Service(bus=self._system_bus, index=0, uuid="0000180d-aaaa-1000-8000-0081239b35fb", primary=True)
+        example_service = Service(
+            bus=self._system_bus,
+            index=0,
+            uuid="0000180d-aaaa-1000-8000-0081239b35fb",
+            primary=True,
+        )
 
         app.add_service(example_service)
 

@@ -44,13 +44,20 @@ class Service(dbus.service.Object):
 
         self.characteristic_queues[uuid] = queue.Queue()
 
-        characteristic = Characteristic(self.bus, len(self.characteristics), uuid, flags, self, description,
-                                        default_value, self.characteristic_queues[uuid])
+        characteristic = Characteristic(
+            self.bus,
+            len(self.characteristics),
+            uuid,
+            flags,
+            self,
+            description,
+            default_value,
+            self.characteristic_queues[uuid],
+        )
 
         self.characteristics.append(characteristic)
 
     def write_to_characteristic(self, value, uuid):
-
         # TODO check size of value and raise exception if too big
         self.characteristic_queues[uuid].put(value)
 

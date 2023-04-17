@@ -1,0 +1,4 @@
+dbus-python
+omegaconf
+pycairo
+PyGObject

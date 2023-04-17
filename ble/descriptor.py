@@ -17,7 +17,7 @@ class Descriptor(dbus.service.Object):
         self.bus = bus
         # TODO: why 2901?
         self.uuid = "2901"
-        self.flags = ['read']
+        self.flags = ["read"]
         self.characteristic = characteristic
         dbus.service.Object.__init__(self, bus, self.path)
 

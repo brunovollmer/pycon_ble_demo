@@ -6,6 +6,7 @@ def check_flags(flags):
         if flag not in ["read", "write", "notify"]:
             raise ValueError("unknown flag")
 
+
 def byte_arr_to_str(byte_array: dbus.Array) -> str:
     """
     Helper function that converts dbus byte array to a ascii string.

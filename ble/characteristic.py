@@ -15,7 +15,9 @@ class Characteristic(dbus.service.Object):
     of the different characteristics.
     """
 
-    def __init__(self, bus, index, uuid, flags, service, description, default_value, input_queue):
+    def __init__(
+        self, bus, index, uuid, flags, service, description, default_value, input_queue
+    ):
         self.notifying = None
         self.notification_timeout_id = None
         self.path = service.path + "/char" + str(index)
@@ -90,7 +92,9 @@ class Characteristic(dbus.service.Object):
             return
 
         self.notifying = True
-        self.notification_timeout_id = GObject.timeout_add(10, self.input_queue_callback)
+        self.notification_timeout_id = GObject.timeout_add(
+            10, self.input_queue_callback
+        )
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StopNotify(self):

@@ -6,7 +6,6 @@ dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
 
 def main():
-
     ble_process = BLEProcess()
     ble_process.start()
 

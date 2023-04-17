@@ -1,7 +1,10 @@
 import dbus
 
-from ble.constants import (DBUS_PROP_IFACE, LE_ADVERTISEMENT_IFACE,
-                           LE_ADVERTISING_MANAGER_IFACE)
+from ble.constants import (
+    DBUS_PROP_IFACE,
+    LE_ADVERTISEMENT_IFACE,
+    LE_ADVERTISING_MANAGER_IFACE,
+)
 from ble.exceptions import AdvertisementException, InvalidArgsException
 
 
@@ -55,7 +58,6 @@ class Advertisement(dbus.service.Object):
         """
         self.Release()
 
-
     def get_properties(self):
         properties = dict()
         properties["Type"] = self.ad_type
@@ -68,7 +70,9 @@ class Advertisement(dbus.service.Object):
                 self.manufacturer_data, signature="qv"
             )
         if self.manufacturer_data is not None:
-            properties["ManufacturerData"] = dbus.Dictionary(self.manufacturer_data, signature="qv")
+            properties["ManufacturerData"] = dbus.Dictionary(
+                self.manufacturer_data, signature="qv"
+            )
         if self.service_data is not None:
             properties["ServiceData"] = dbus.Dictionary(
                 self.service_data, signature="sv"
