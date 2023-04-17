@@ -30,6 +30,8 @@ class Advertisement(dbus.service.Object):
         self.service_data = None
         self.local_name = dbus.String(name)
         self.include_tx_power = None
+        # TODO: check if this could be empty
+        self.manufacturer_data = {0xFFFF: dbus.Array([0x70, 0x74], signature="y")}
         self.data = None
         self.adapter_obj = adapter_obj
         dbus.service.Object.__init__(self, bus, self.path)
@@ -56,6 +58,7 @@ class Advertisement(dbus.service.Object):
         """
         self.Release()
 
+
     def get_properties(self):
         properties = dict()
         properties["Type"] = self.ad_type
@@ -67,6 +70,8 @@ class Advertisement(dbus.service.Object):
             properties["ManufacturerData"] = dbus.Dictionary(
                 self.manufacturer_data, signature="qv"
             )
+        if self.manufacturer_data is not None:
+            properties["ManufacturerData"] = dbus.Dictionary(self.manufacturer_data, signature="qv")
         if self.service_data is not None:
             properties["ServiceData"] = dbus.Dictionary(
                 self.service_data, signature="sv"
