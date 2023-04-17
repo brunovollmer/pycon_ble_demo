@@ -4,7 +4,6 @@ import dbus
 
 from ble.characteristic import Characteristic
 from ble.constants import DBUS_PROP_IFACE, GATT_SERVICE_IFACE
-
 from ble.exceptions import InvalidArgsException
 from ble.util import check_flags
 

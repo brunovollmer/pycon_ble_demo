@@ -8,16 +8,9 @@ import dbus.mainloop.glib
 import dbus.service
 from gi.repository import GLib
 
-from ble.constants import (
-    BLUEZ_OBJECT_NAME,
-    BLUEZ_SERVICE_NAME,
-    DBUS_OM_IFACE,
-    GATT_MANAGER_IFACE,
-)
-
-
 from ble.advertisement import Advertisement
 from ble.application import Application
+from ble.constants import BLUEZ_SERVICE_NAME, DBUS_OM_IFACE, GATT_MANAGER_IFACE
 from ble.exceptions import BluetoothNotFoundException
 from ble.service import Service
 

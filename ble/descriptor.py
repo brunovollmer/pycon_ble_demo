@@ -1,7 +1,8 @@
-import dbus
 import array
 
-from ble.constants import GATT_DESC_IFACE, DBUS_PROP_IFACE
+import dbus
+
+from ble.constants import DBUS_PROP_IFACE, GATT_DESC_IFACE
 from ble.exceptions import InvalidArgsException
 from ble.util import str_to_byte_arr
 

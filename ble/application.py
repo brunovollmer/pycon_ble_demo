@@ -1,9 +1,8 @@
-import dbus
-
 from typing import Dict
 
-from ble.constants import DBUS_OM_IFACE
+import dbus
 
+from ble.constants import DBUS_OM_IFACE
 from ble.service import Service
 
 

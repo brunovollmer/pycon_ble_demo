@@ -1,7 +1,6 @@
 import queue
 
 import dbus
-
 from gi.repository import GObject
 
 from ble.constants import DBUS_PROP_IFACE, GATT_CHRC_IFACE, GATT_DESC_IFACE

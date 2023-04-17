@@ -1,10 +1,7 @@
 import dbus
 
-from ble.constants import (
-    LE_ADVERTISING_MANAGER_IFACE,
-    LE_ADVERTISEMENT_IFACE,
-    DBUS_PROP_IFACE,
-)
+from ble.constants import (DBUS_PROP_IFACE, LE_ADVERTISEMENT_IFACE,
+                           LE_ADVERTISING_MANAGER_IFACE)
 from ble.exceptions import AdvertisementException, InvalidArgsException
 
 
