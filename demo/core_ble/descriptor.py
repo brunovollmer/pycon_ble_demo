@@ -2,9 +2,9 @@ import array
 
 import dbus
 
-from ble.constants import DBUS_PROP_IFACE, GATT_DESC_IFACE
-from ble.exceptions import InvalidArgsException
-from ble.util import str_to_byte_arr
+from demo.constants import DBUS_PROP_IFACE, GATT_DESC_IFACE
+from demo.exceptions import InvalidArgsException
+from demo.util import str_to_byte_arr
 
 
 class Descriptor(dbus.service.Object):

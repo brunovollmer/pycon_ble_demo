@@ -3,10 +3,10 @@ import queue
 import dbus
 from gi.repository import GObject
 
-from ble.constants import DBUS_PROP_IFACE, GATT_CHRC_IFACE, GATT_DESC_IFACE
-from ble.descriptor import Descriptor
-from ble.exceptions import InvalidArgsException, NotSupportedException
-from ble.util import str_to_byte_arr
+from demo.constants import DBUS_PROP_IFACE, GATT_CHRC_IFACE
+from demo.core_ble.descriptor import Descriptor
+from demo.exceptions import InvalidArgsException
+from demo.util import str_to_byte_arr
 
 
 class Characteristic(dbus.service.Object):

@@ -8,11 +8,11 @@ import dbus.mainloop.glib
 import dbus.service
 from gi.repository import GLib
 
-from ble.advertisement import Advertisement
-from ble.application import Application
-from ble.constants import BLUEZ_SERVICE_NAME, DBUS_OM_IFACE, GATT_MANAGER_IFACE
-from ble.exceptions import BluetoothNotFoundException
-from ble.service import Service
+from demo.core_ble.advertisement import Advertisement
+from demo.core_ble.application import Application
+from demo.constants import BLUEZ_SERVICE_NAME, DBUS_OM_IFACE, GATT_MANAGER_IFACE
+from demo.exceptions import BluetoothNotFoundException
+from demo.core_ble.service import Service
 
 
 def find_adapter(bus):

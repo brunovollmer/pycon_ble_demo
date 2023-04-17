@@ -2,8 +2,8 @@ from typing import Dict
 
 import dbus
 
-from ble.constants import DBUS_OM_IFACE
-from ble.service import Service
+from demo.constants import DBUS_OM_IFACE
+from demo.core_ble.service import Service
 
 
 class Application(dbus.service.Object):

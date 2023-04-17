@@ -1,6 +1,6 @@
 import dbus
 
-from ble.ble_process import BLEProcess
+from demo.ble_process import BLEProcess
 
 dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 

@@ -2,10 +2,10 @@ import queue
 
 import dbus
 
-from ble.characteristic import Characteristic
-from ble.constants import DBUS_PROP_IFACE, GATT_SERVICE_IFACE
-from ble.exceptions import InvalidArgsException
-from ble.util import check_flags
+from demo.core_ble.characteristic import Characteristic
+from demo.constants import DBUS_PROP_IFACE, GATT_SERVICE_IFACE
+from demo.exceptions import InvalidArgsException
+from demo.util import check_flags
 
 
 class Service(dbus.service.Object):
