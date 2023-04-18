@@ -7,7 +7,7 @@ from gi.repository import GObject
 from demo.core_ble.constants import DBUS_PROP_IFACE, GATT_CHRC_IFACE
 from demo.core_ble.descriptor import Descriptor
 from demo.exceptions import InvalidArgsException
-from demo.util import str_to_byte_arr, byte_arr_to_str
+from demo.util import byte_arr_to_str, str_to_byte_arr
 
 
 class Characteristic(dbus.service.Object):
@@ -131,7 +131,7 @@ class Characteristic(dbus.service.Object):
         Writes a value to the characteristic.
         """
         self.value = value
-        self.output_queue.put({'uuid': self.uuid, 'value': byte_arr_to_str(value)})
+        self.output_queue.put({"uuid": self.uuid, "value": byte_arr_to_str(value)})
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StartNotify(self):

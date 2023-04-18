@@ -81,10 +81,12 @@ class BLEProcess(Process):
             index=0,
             uuid="0000180d-aaaa-1000-8000-0081239b35fb",
             primary=True,
-            output_queue=self._output_queue
+            output_queue=self._output_queue,
         )
 
-        example_service.add_characteristic('f76ce015-952b-c6a8-e17c-c2c19aac7b1b', ["read", "write"], "Test Characteristic", "Hello PyConDE")
+        example_service.add_characteristic(
+            "f76ce015-952b-c6a8-e17c-c2c19aac7b1b", ["read", "write"], "Test Characteristic", "Hello PyConDE"
+        )
 
         app.add_service(example_service)
 

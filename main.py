@@ -1,7 +1,8 @@
-import dbus
 import multiprocessing
 import queue
 import time
+
+import dbus
 
 from demo.ble_process import BLEProcess
 
@@ -10,7 +11,7 @@ dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
 def main():
     output_queue = multiprocessing.Queue()
-    
+
     ble_process = BLEProcess(output_queue)
     ble_process.start()
 
@@ -20,8 +21,6 @@ def main():
             print(f"Value written to Characteristic with UUID {curr_value['uuid']}: {curr_value['value']}")
         except queue.Empty:
             time.sleep(1)
-        
-
 
 
 if __name__ == "__main__":
