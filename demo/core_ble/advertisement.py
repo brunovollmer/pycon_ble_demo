@@ -89,8 +89,6 @@ class Advertisement(dbus.service.Object):
             properties["SolicitUUIDs"] = dbus.Array(self.solicit_uuids, signature="s")
         if self.manufacturer_data is not None:
             properties["ManufacturerData"] = dbus.Dictionary(self.manufacturer_data, signature="qv")
-        if self.manufacturer_data is not None:
-            properties["ManufacturerData"] = dbus.Dictionary(self.manufacturer_data, signature="qv")
         if self.service_data is not None:
             properties["ServiceData"] = dbus.Dictionary(self.service_data, signature="sv")
         if self.local_name is not None:
